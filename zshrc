@@ -1,132 +1,134 @@
-# Path to your oh-my-zsh configuration.
-ZSH=/usr/share/oh-my-zsh/
-ZSH_CACHE_DIR="/tmp/zsh_cache"
+export DEFAULT_USER=blub
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
 
 
-#===============================================================================
+
+################################################################################
 #
-#   Stuff to do before Zsh config gets sourced
+# terminal colors
 #
-#===============================================================================
+################################################################################
 
-#========================
-# Use dircolors
-#========================
-
-# Specify path to default dircolors
-DIRCOLORS_PATH="/etc/dircolors.d/dircolors.256dark"
-
-# Use user-specific dircolors if available
-if [ -f "${HOME}/.config/shell/dircolors" ]
-then
-  echo "found user-specific dircolors for ${HOME}"
-  DIRCOLORS_PATH="${HOME}/.config/shell/dircolors"
-fi
-
-if [ -f "${DIRCOLORS_PATH}" ]
-then
-  eval $(dircolors -b "${DIRCOLORS_PATH}")
-else
-  echo "no dircolors found at ${DIRCOLORS_PATH}"
-fi
-
-#[[ ${TERM} != "linux" && -f ${HOME}/.config/shell/dircolors ]] && eval $(dircolors -b ${HOME}/.config/shell/dircolors)
+# TODO look whether this is really necessary
+export CLICOLOR=1
 
 
 
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+################################################################################
+#
+# load the zsh theme (all themes are located in $ZSH/themes)
+# load zsh plugins (located in $ZSH/custom/plugins,
+#                   careful: too many plugins slow down startup)
+# source the zsh script
+#
+################################################################################
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable bi-weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-#DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-#COMPLETION_WAITING_DOTS="true"
-
-# Uncomment following line if you want to disable marking untracked files under
-# VCS as dirty. This makes repository status check for large repositories much,
-# much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# per-directory-history
-plugins=(git git-extras gitfast themes archlinux battery cp history compleat)
-
+ZSH_THEME="avit-custom"
+#plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
-#========================
-# Prepend user-specific bin/ paths
-#========================
-if [ -d "${HOME}/.bin" ]
-then
-  PATH="${HOME}/.bin:${PATH}"
-fi
 
-#========================
-# Miscellanneous
-#========================
 
-alias ls='/usr/bin/ls -C --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=always -F'
-alias ll='/usr/bin/ls -lsh --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=always -F'
-alias la='/usr/bin/ls -lash --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=always -F'
-# List by date
-alias lsd='/usr/bin/ls -lsth --time-style=+"%d.%m.%Y %H:%M" --color=always -c -F'
 
-alias grep='grep --color=always -d skip'
-alias cp="cp -i"                          # confirm before overwriting something
-alias df='df -h'                          # human-readable sizes
-alias free='free -m'                      # show sizes in MB
-alias vp='vim PKGBUILD'
-alias vs='vim SPLITBUILD'
+################################################################################
+#
+# set path variables
+#
+################################################################################
 
-# vim stuff
-export EDITOR=vim
-export DIFF=vimdiff
-export VISUAL=vim
-alias vi=vim
-alias view='vim -R'
+# 1st path for macports
+# 2nd path for homebrew
+export PATH=/opt/local/bin:/usr/local/sbin:$HOME/bin:$PATH
 
-#========================
-# Create new directory and cd into it
-#========================
-alias md='__make_and_change_directory'
 
-__make_and_change_directory() {
-    for v in "$@"
-    do
-        mkdir "$v"
-        cd "$v"
-    done
-}
 
-#========================
-# Extract an archive
-#========================
+
+################################################################################
+#
+# set language environment
+#
+################################################################################
+
+export LANG=en_US.UTF-8
+
+
+
+
+################################################################################
+#
+# enable syntax highlighting in zsh
+# (need to be downloaded first)
+#
+################################################################################
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+
+
+################################################################################
+#
+# user defined aliases
+# (For a full list of active aliases, run `alias`)
+#
+################################################################################
+
+# =============================== general commands =============================
+alias cp="cp -iv"           # confirm before overwriting something
+alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls -G'
+alias lsa='ls -lah'
+alias mv="mv -iv"
+
+# =================================== git ======================================
+alias g="git"
+alias ga='git add'
+alias gb='git branch'
+alias gc='git commit -v'
+alias gcl='git clone'
+alias gco='git checkout'
+alias gd='git diff'
+alias gk='\gitk --all --branches'
+alias gke='\gitk --all $(git log -g --pretty=format:%h)'
+alias gl='git pull'
+alias glg='git log --stat'
+alias glgg='git log --graph'
+alias glgga='git log --graph --decorate --all'
+alias glgm='git log --graph --max-count=10'
+alias glgp='git log --stat -p'
+alias glo='git log --oneline --decorate'
+alias glog='git log --oneline --decorate --graph'
+alias glol='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
+alias glola='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit --all'
+alias gm='git merge'
+alias gp='git push'
+alias gpd='git push --dry-run'
+alias gst="git status -s"
+alias gstall="git status --ignored --untracked-files=all"
+
+# =================================== uni ======================================
+# documents/manuels
+alias cstandard="open /Users/wiamrachid/Desktop/Uni/n1570.pdf"
+alias islman='open /Users/wiamrachid/Documents/bachelor/bachelor-git/llvm/tools/polly/lib/External/isl/doc/manual.pdf'
+# cd
+alias uni="cd /Users/wiamrachid/Desktop/Uni"
+alias bachelor="cd /Users/wiamrachid/Documents/bachelor/bachelor-git/"
+
+
+
+
+################################################################################
+#
+# a function that should extract archieves
+#
+################################################################################
+
 extract () {
   if [ -f $1 ] ; then
     case $1 in
@@ -146,12 +148,3 @@ extract () {
     echo "'$1' is not a valid file"
   fi
 }
-
-
-#========================
-# Source user-specific .zshrc files
-#========================
-if [ -f "$HOME/.zshrc" ]
-then
-  source "$HOME/.zshrc"
-fi
