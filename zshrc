@@ -1,7 +1,12 @@
-export DEFAULT_USER=blub
+#export DEFAULT_USER=blub
+export DEFAULT_USER=wiamrachid
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+
+# fix for perl warning
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 
 
@@ -26,7 +31,7 @@ export CLICOLOR=1
 #
 ################################################################################
 
-ZSH_THEME="avit-custom"
+ZSH_THEME="agnoster-custom"
 #plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
@@ -112,14 +117,8 @@ alias gpd='git push --dry-run'
 alias gst="git status -s"
 alias gstall="git status --ignored --untracked-files=all"
 
-# =================================== uni ======================================
-# documents/manuels
-alias cstandard="open /Users/wiamrachid/Desktop/Uni/n1570.pdf"
-alias islman='open /Users/wiamrachid/Documents/bachelor/bachelor-git/llvm/tools/polly/lib/External/isl/doc/manual.pdf'
-# cd
-alias uni="cd /Users/wiamrachid/Desktop/Uni"
-alias bachelor="cd /Users/wiamrachid/Documents/bachelor/bachelor-git/"
-
+# ========================== user-defined aliases ==============================
+# TODO
 
 
 
